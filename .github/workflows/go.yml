@@ -1,0 +1,25 @@
+name: Test Go build
+on: [push]
+jobs:
+
+  build:
+    name: Build
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    steps:
+    - name: Set up Go 1.13
+      uses: actions/setup-go@v1
+      with:
+        go-version: 1.13
+      id: go
+
+    - name: Check out code to a GOPATH compatible directory
+      uses: actions/checkout@v1
+      with:
+        fetch-depth: 1
+        path: c0_compiler
+
+    - name: Build
+      run: go build -v c0_compiler/cmd/cc0
